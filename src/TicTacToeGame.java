@@ -1,9 +1,9 @@
 import java.util.Random;
-
-import Cell.cellContent;
+import java.util.ArrayList;
 
 public class TicTacToeGame
 {
+	public static int gameWonByComputer = 0;
 	
 	Random rand = new Random();
 	final int BOARD_SIZE_LENGTH=3;
@@ -98,11 +98,14 @@ public class TicTacToeGame
 		String statement= "test";
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
+			
 		}
 		else if(turn.getTurn()==0 && tie==false) {
+			gameWonByComputer++;
 			statement="You lost!!!";
 		}
 		return statement;
 	}
+	
 	
 }

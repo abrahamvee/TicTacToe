@@ -52,6 +52,7 @@ public class PlayTicTacToe
 			moveNumber++;
 			notFirstTurn = true;
 			emptyCells--;
+
 			if(emptyCells==0 && gameOver==false) {
 				gameOver = true;
 				tie = true;
