@@ -1,7 +1,5 @@
 import java.util.Random;
 
-import Cell.cellContent;
-
 public class TicTacToeGame
 {
 	
