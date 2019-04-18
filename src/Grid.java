@@ -1,8 +1,10 @@
+import java.io.Serializable;
 
-public class Grid
+public class Grid implements Serializable
 {
 	private Cell grid[] = new Cell[9];
 	final static int GRID_SIZE=9;
+	
 	
 	public Grid() {
 		for(int i=0;i<grid.length;i++) {
@@ -13,6 +15,10 @@ public class Grid
 	
 	public int getCellID(int cellNumber) {
 		return grid[cellNumber].getCellID();
+	}
+	
+	public int getCellOrder(int cellNumber) {
+		return grid[cellNumber].getOrder();
 	}
 	
 	public boolean setX(int cell,int moveNumber) {

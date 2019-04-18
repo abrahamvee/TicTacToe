@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Cell
+public class Cell implements Serializable
 {
 	private cellContent cell;
 	private int orderInGamePlay;
@@ -46,6 +47,9 @@ public class Cell
 		return cell.content_ID;
 	}
 	
+	public int getOrder() {
+		return orderInGamePlay;
+	}
 	public void saveOrder(int order) {
 		orderInGamePlay = order;
 	}

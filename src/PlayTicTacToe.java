@@ -9,7 +9,7 @@ public class PlayTicTacToe
 	final static int BOARD_SIZE=9;
 	
 	
-	public static void main(String[] args)
+	public static void main(String[] args) throws Exception
 	{
 		
 		TicTacToeGame game1 = new TicTacToeGame();
@@ -17,11 +17,11 @@ public class PlayTicTacToe
 		int cell = 0,moveNumber = 0, emptyCells=9;
 		boolean succesfulTurn = false, gameOver = false, notFirstTurn=false;
 		boolean tie = false;
-	
 		game1.setInitialTurn();
+		//game1.printSavedBoard();
 		System.out.println("Welcome to Tic-Tac-Toe. Use the following numbers to select a cell.");
 		game1.getGrid().printBoardAid();
-		
+	
 		while(!gameOver) {
 			if(notFirstTurn) {
 			game1.changeTurn();
@@ -48,6 +48,7 @@ public class PlayTicTacToe
 				}while(!succesfulTurn);
 				gameOver=game1.checkGameOver();
 				}
+			
 			game1.getGrid().printBoard();
 			moveNumber++;
 			notFirstTurn = true;
@@ -56,10 +57,10 @@ public class PlayTicTacToe
 				gameOver = true;
 				tie = true;
 			}
+			
 			}
 		System.out.println(game1.declareWinner(tie));
 		in.close();
-		
 	}
 
 	
