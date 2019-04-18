@@ -41,8 +41,35 @@ public class TicTacToeGame implements Serializable
 	
 	
 	public int computersChoice() {
-		return rand.nextInt(9);
-	
+		int cellToUse=0;
+		boolean foundInReferenceBoard = false;
+		Grid previousBoard = new Grid();
+		ArrayList<Integer> winningCombo = new ArrayList<Integer>(); 
+			
+			if(wonMatches.isEmpty()) {
+				cellToUse = rand.nextInt(9);
+			}
+			else if(!wonMatches.isEmpty()) {
+				for(int i=0;i<wonMatches.size();i++) {
+					if(grid.equals(wonMatches.get(i))) {
+						 previousBoard=wonMatches.get(i);
+					}
+					else {
+						previousBoard=wonMatches.get(0);
+					}
+				}
+				for(int i=0;i<Grid.GRID_SIZE;i++) {
+					if(previousBoard.getCellID(i)==0 && grid.getCellID(i)==-1 ) {
+						cellToUse=i;
+						foundInReferenceBoard = true;
+					}
+			}
+				if (!foundInReferenceBoard) {
+					cellToUse = rand.nextInt(9);
+				}
+					
+	}
+			return cellToUse;
 	}
 	
 	public void changeTurn() {
@@ -114,12 +141,12 @@ public class TicTacToeGame implements Serializable
 			gameWonByComputer++;
 			statement="You lost!!!";
 			wonMatches.add(grid);
-			saveBoard(grid);	
+			saveBoard();	
 	}	
 		return statement;
 }
 	
-	private void saveBoard(Grid gridToSave) throws Exception{
+	private void saveBoard() throws Exception{
 		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
 		os.writeObject(wonMatches);
 		os.close();

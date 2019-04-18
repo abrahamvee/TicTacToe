@@ -47,6 +47,9 @@ public class Cell implements Serializable
 		return cell.content_ID;
 	}
 	
+	public int getOrder() {
+		return orderInGamePlay;
+	}
 	public void saveOrder(int order) {
 		orderInGamePlay = order;
 	}

@@ -17,6 +17,10 @@ public class Grid implements Serializable
 		return grid[cellNumber].getCellID();
 	}
 	
+	public int getCellOrder(int cellNumber) {
+		return grid[cellNumber].getOrder();
+	}
+	
 	public boolean setX(int cell,int moveNumber) {
 		cell=cell-1;
 		if(grid[cell].getCell().trim().isEmpty()) {

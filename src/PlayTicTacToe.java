@@ -17,11 +17,12 @@ public class PlayTicTacToe
 		int cell = 0,moveNumber = 0, emptyCells=9;
 		boolean succesfulTurn = false, gameOver = false, notFirstTurn=false;
 		boolean tie = false;
+		char exit='\0';
 		game1.setInitialTurn();
-		game1.printSavedBoard();
+		//game1.printSavedBoard();
 		System.out.println("Welcome to Tic-Tac-Toe. Use the following numbers to select a cell.");
 		game1.getGrid().printBoardAid();
-		
+	
 		while(!gameOver) {
 			if(notFirstTurn) {
 			game1.changeTurn();
@@ -48,19 +49,19 @@ public class PlayTicTacToe
 				}while(!succesfulTurn);
 				gameOver=game1.checkGameOver();
 				}
+			
 			game1.getGrid().printBoard();
 			moveNumber++;
 			notFirstTurn = true;
 			emptyCells--;
-
 			if(emptyCells==0 && gameOver==false) {
 				gameOver = true;
 				tie = true;
 			}
+			
 			}
 		System.out.println(game1.declareWinner(tie));
 		in.close();
-		
 	}
 
 	
