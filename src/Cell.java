@@ -1,5 +1,6 @@
+import java.io.Serializable;
 
-public class Cell
+public class Cell implements Serializable
 {
 	private cellContent cell;
 	private int orderInGamePlay;

@@ -1,9 +1,18 @@
 import java.util.Random;
 import java.util.ArrayList;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 
-public class TicTacToeGame
+public class TicTacToeGame implements Serializable
 {
 	public static int gameWonByComputer = 0;
+	public static ArrayList<Grid> wonMatches = new ArrayList<Grid>();
+	String fileName = "ticTacToe_learning.ser";
+	 
 	
 	Random rand = new Random();
 	final int BOARD_SIZE_LENGTH=3;
@@ -27,6 +36,7 @@ public class TicTacToeGame
 	
 	public TicTacToeGame() {
 		 grid = new Grid();
+		 
 	}
 	
 	
@@ -94,8 +104,8 @@ public class TicTacToeGame
 		return gameOver;
 	}
 	
-	public String declareWinner(boolean tie) {
-		String statement= "test";
+	public String declareWinner(boolean tie)throws Exception {
+		String statement= "Tie";
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
 			
@@ -103,9 +113,36 @@ public class TicTacToeGame
 		else if(turn.getTurn()==0 && tie==false) {
 			gameWonByComputer++;
 			statement="You lost!!!";
-		}
+			wonMatches.add(grid);
+			saveBoard(grid);	
+	}	
 		return statement;
+}
+	
+	private void saveBoard(Grid gridToSave) throws Exception{
+		ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(fileName));
+		os.writeObject(wonMatches);
+		os.close();
 	}
 	
+	public void printSavedBoard() throws Exception {
+		readBoards();
+		if(!wonMatches.isEmpty()) {
+		for(int i=0;i<wonMatches.size();i++) {
+			wonMatches.get(i).printBoard();
+		}
+		}
+		System.out.println("Those were the saved boards.");
+	}
 	
+	public void readBoards() throws Exception {
+		try {
+		ObjectInputStream is = new ObjectInputStream(new FileInputStream(fileName));
+		wonMatches = (ArrayList<Grid>) is.readObject();
+		is.close();
+		}catch(FileNotFoundException e) {
+			
+		}
+		
+	}
 }
