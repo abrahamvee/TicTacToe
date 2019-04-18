@@ -13,13 +13,15 @@ public class TicTacToeGame implements Serializable
 {
 	public static int gameWonByComputer = 0;
 	public static ArrayList<Grid> wonMatches = new ArrayList<Grid>();
-	String fileName = "ticTacToe_learning.ser";
+	String fileName = "ticTacToe_learning_losses.ser";
 	 
 	
 	Random rand = new Random();
 	final int BOARD_SIZE_LENGTH=3;
+	private int moveOrderTemp;
 	private boolean gameOver = false;
 	private Grid grid;
+	private Grid gridTemp;
 	Turn turn;
 	
 	public enum Turn{
@@ -42,7 +44,7 @@ public class TicTacToeGame implements Serializable
 	}
 	
 	
-	public int computersChoice() {
+	public int computersChoice(int orderNumber) {
 		int cellToUse=0;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
@@ -52,19 +54,18 @@ public class TicTacToeGame implements Serializable
 				cellToUse = rand.nextInt(9);
 			}
 			else if(!wonMatches.isEmpty()) {
+				grid.copyIntoGrid(gridTemp);
+				cellToUse = rand.nextInt(9);
+				gridTemp.setO(cellToUse,orderNumber);
 				for(int i=0;i<wonMatches.size();i++) {
-					if(grid.equals(wonMatches.get(i))) {
+					if(gridTemp.equals(wonMatches.get(i))) {
 						 previousBoard=wonMatches.get(i);
 					}
 					else {
 						previousBoard=wonMatches.get(0);
 					}
 				}
-				for(int i=0;i<Grid.GRID_SIZE;i++) {
-					if(previousBoard.getCellID(i)==0 && grid.getCellID(i)==-1 ) {
-						cellToUse=i;
-						foundInReferenceBoard = true;
-					}
+				
 			}
 				if (!foundInReferenceBoard) {
 					cellToUse = rand.nextInt(9);
@@ -134,7 +135,9 @@ public class TicTacToeGame implements Serializable
 	}
 	
 	public String declareWinner(boolean tie)throws Exception {
+		boolean foundLastMove = false;
 		String statement= "Tie";
+		int i=9;
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
 			
@@ -142,7 +145,17 @@ public class TicTacToeGame implements Serializable
 		else if(turn.getTurn()==0 && tie==false) {
 			gameWonByComputer++;
 			statement="You lost!!!";
-			wonMatches.add(grid);
+			grid.copyIntoGrid(gridTemp);
+			do {
+				if(gridTemp.getCellOrder(i)!=-1) {
+					gridTemp.emptyCell(i);
+					moveOrderTemp = gridTemp.getCellOrder(i);
+					foundLastMove= true;
+				}else {
+					i--;
+				}
+			}while(!foundLastMove);
+			wonMatches.add(gridTemp);
 			saveBoard();	
 	}	
 		return statement;

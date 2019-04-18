@@ -14,7 +14,7 @@ public class PlayTicTacToe
 		
 		TicTacToeGame game1 = new TicTacToeGame();
 		Scanner in = new Scanner(System.in);
-		int cell = 0,moveNumber = 0, emptyCells=9;
+		int cell = 0, moveNumber = 0, emptyCells=9;
 		boolean succesfulTurn = false, gameOver = false, notFirstTurn=false;
 		boolean tie = false;
 		game1.setInitialTurn();
@@ -44,7 +44,7 @@ public class PlayTicTacToe
 			else if (game1.turn.getTurn()==0){
 				System.out.println("The computers turn!!!");
 				do {
-					succesfulTurn=game1.getGrid().setO(game1.computersChoice(), moveNumber);
+					succesfulTurn=game1.getGrid().setO(game1.computersChoice(moveNumber), moveNumber);
 				}while(!succesfulTurn);
 				gameOver=game1.checkGameOver();
 				}

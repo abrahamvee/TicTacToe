@@ -21,6 +21,10 @@ public class Grid implements Serializable
 		return grid[cellNumber].getOrder();
 	}
 	
+	public void emptyCell(int cellNumber) {
+		grid[cellNumber].cleanCell();
+	}
+	
 	public boolean setX(int cell,int moveNumber) {
 		cell=cell-1;
 		if(grid[cell].getCell().trim().isEmpty()) {
@@ -32,7 +36,16 @@ public class Grid implements Serializable
 			return false;
 		}	
 	}
-	
+	public void copyIntoGrid(Grid gridTemp) {
+		for(int i=0;i<GRID_SIZE;i++) {
+			if(grid[i].getCellID()==1) {
+				gridTemp.setX(i, grid[i].getOrder());
+			}
+			else if(grid[i].getCellID()==0) {
+				gridTemp.setO(i, grid[i].getOrder());
+			}
+		}
+	}
 	public boolean setO(int cell, int moveNumber) {
 		if(grid[cell].getCell().trim().isEmpty()) {
 			grid[cell].setO();
