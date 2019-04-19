@@ -11,15 +11,16 @@ import java.io.Serializable;
 public class TicTacToeGame implements Serializable
 
 {
-	public static int gameWonByComputer = 0;
 	public static ArrayList<Grid> wonMatches = new ArrayList<Grid>();
-	String fileName = "ticTacToe_learning.ser";
+	String fileName = "ticTacToe_learning_losses.ser";
 	 
 	
 	Random rand = new Random();
 	final int BOARD_SIZE_LENGTH=3;
+	private int moveOrderTemp;
 	private boolean gameOver = false;
 	private Grid grid;
+	private Grid gridTemp;
 	Turn turn;
 	
 	public enum Turn{
@@ -38,41 +39,36 @@ public class TicTacToeGame implements Serializable
 	
 	public TicTacToeGame() {
 		 grid = new Grid();
-		 
+		 gridTemp = new Grid();
 	}
 	
 	
-	public int computersChoice() {
-		int cellToUse=0;
+	public int computersChoice(int orderNumber) {
+		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
-		ArrayList<Integer> winningCombo = new ArrayList<Integer>(); 
 			
 			if(wonMatches.isEmpty()) {
 				cellToUse = rand.nextInt(9);
 			}
 			else if(!wonMatches.isEmpty()) {
-				for(int i=0;i<wonMatches.size();i++) {
-					if(grid.equals(wonMatches.get(i))) {
-						 previousBoard=wonMatches.get(i);
-					}
-					else {
-						previousBoard=wonMatches.get(0);
-					}
-				}
-				for(int i=0;i<Grid.GRID_SIZE;i++) {
-					if(previousBoard.getCellID(i)==0 && grid.getCellID(i)==-1 ) {
-						cellToUse=i;
+				grid.copyIntoGrid(gridTemp);
+				cellToUse = rand.nextInt(9);
+				gridTemp.setO(cellToUse,orderNumber);
+				
+				do {   										// cycle through wonMatches looking for a one that equals gridTemp
+					if(gridTemp.equals(wonMatches.get(i))) {
+						previousBoard=wonMatches.get(i);
 						foundInReferenceBoard = true;
+						numberToAvoid = cellToUse;
+						cellToUse= rand.nextInt(9);
 					}
+				}while(!foundInReferenceBoard && numberToAvoid!=cellToUse);
 			}
-				if (!foundInReferenceBoard) {
-					cellToUse = rand.nextInt(9);
-				}
-					
+			return cellToUse;		
 	}
-			return cellToUse;
-	}
+			
+	
 	
 	public void changeTurn() {
 		if(turn.getTurn()==1) {
@@ -99,7 +95,7 @@ public class TicTacToeGame implements Serializable
 	
 	public boolean checkGameOver() {
 		
-		for(int i=0;i<BOARD_SIZE_LENGTH;i=i+3) {
+		for(int i=0;i<7;i=i+3) {
 			if(grid.getCellID(i)==grid.getCellID(i+1) && grid.getCellID(i)==grid.getCellID(i+2) && grid.getCellID(i)==1) {
 				gameOver = true;
 			}
@@ -134,16 +130,28 @@ public class TicTacToeGame implements Serializable
 	}
 	
 	public String declareWinner(boolean tie)throws Exception {
+		boolean foundLastMove = false;
 		String statement= "Tie";
+		int i=8;
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
+			grid.copyIntoGrid(gridTemp);
+			do {
+				if(gridTemp.getCellOrder(i)!=-1) {
+					moveOrderTemp = gridTemp.getCellOrder(i);
+					gridTemp.emptyCell(i);
+					foundLastMove= true;
+				}else {
+					i--;
+				}
+			}while(!foundLastMove || i==0);
+			wonMatches.add(gridTemp);
+			saveBoard();
 			
 		}
 		else if(turn.getTurn()==0 && tie==false) {
-			gameWonByComputer++;
 			statement="You lost!!!";
-			wonMatches.add(grid);
-			saveBoard();	
+				
 	}	
 		return statement;
 }
