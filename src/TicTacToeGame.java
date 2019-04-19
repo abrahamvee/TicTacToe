@@ -47,7 +47,6 @@ public class TicTacToeGame implements Serializable
 		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
-		ArrayList<Integer> winningCombo = new ArrayList<Integer>(); 
 			
 			if(wonMatches.isEmpty()) {
 				cellToUse = rand.nextInt(9);

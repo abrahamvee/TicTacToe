@@ -30,13 +30,13 @@ public class PlayTicTacToe
 			if(game1.turn.getTurn()==1) {
 				System.out.println("Where do you want to place your X: ");
 				
-				cell = in.nextInt();
+				cell = in.nextInt()-1;
 				
 				do {
 					succesfulTurn=game1.getGrid().setX(cell, moveNumber);
 					if(succesfulTurn==false) {
 						System.out.println("Invalid cell. Try other.");
-						cell = in.nextInt();
+						cell = in.nextInt()-1;
 					}
 				}while(!succesfulTurn);
 				gameOver=game1.checkGameOver();
