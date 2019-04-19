@@ -11,7 +11,6 @@ import java.io.Serializable;
 public class TicTacToeGame implements Serializable
 
 {
-	public static int gameWonByComputer = 0;
 	public static ArrayList<Grid> wonMatches = new ArrayList<Grid>();
 	String fileName = "ticTacToe_learning_losses.ser";
 	 
@@ -45,7 +44,7 @@ public class TicTacToeGame implements Serializable
 	
 	
 	public int computersChoice(int orderNumber) {
-		int cellToUse=0;
+		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
 		ArrayList<Integer> winningCombo = new ArrayList<Integer>(); 
@@ -57,23 +56,20 @@ public class TicTacToeGame implements Serializable
 				grid.copyIntoGrid(gridTemp);
 				cellToUse = rand.nextInt(9);
 				gridTemp.setO(cellToUse,orderNumber);
-				for(int i=0;i<wonMatches.size();i++) {
-					if(gridTemp.equals(wonMatches.get(i))) {
-						 previousBoard=wonMatches.get(i);
-					}
-					else {
-						previousBoard=wonMatches.get(0);
-					}
-				}
 				
+				do {   										// cycle through wonMatches looking for a one that equals gridTemp
+					if(gridTemp.equals(wonMatches.get(i))) {
+						previousBoard=wonMatches.get(i);
+						foundInReferenceBoard = true;
+						numberToAvoid = cellToUse;
+						cellToUse= rand.nextInt(9);
+					}
+				}while(!foundInReferenceBoard && numberToAvoid!=cellToUse);
 			}
-				if (!foundInReferenceBoard) {
-					cellToUse = rand.nextInt(9);
-				}
-					
+			return cellToUse;		
 	}
-			return cellToUse;
-	}
+			
+	
 	
 	public void changeTurn() {
 		if(turn.getTurn()==1) {
@@ -100,7 +96,7 @@ public class TicTacToeGame implements Serializable
 	
 	public boolean checkGameOver() {
 		
-		for(int i=0;i<BOARD_SIZE_LENGTH;i=i+3) {
+		for(int i=0;i<7;i=i+3) {
 			if(grid.getCellID(i)==grid.getCellID(i+1) && grid.getCellID(i)==grid.getCellID(i+2) && grid.getCellID(i)==1) {
 				gameOver = true;
 			}
@@ -140,23 +136,23 @@ public class TicTacToeGame implements Serializable
 		int i=9;
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
-			
-		}
-		else if(turn.getTurn()==0 && tie==false) {
-			gameWonByComputer++;
-			statement="You lost!!!";
 			grid.copyIntoGrid(gridTemp);
 			do {
 				if(gridTemp.getCellOrder(i)!=-1) {
-					gridTemp.emptyCell(i);
 					moveOrderTemp = gridTemp.getCellOrder(i);
+					gridTemp.emptyCell(i);
 					foundLastMove= true;
 				}else {
 					i--;
 				}
-			}while(!foundLastMove);
+			}while(!foundLastMove || i==0);
 			wonMatches.add(gridTemp);
-			saveBoard();	
+			saveBoard();
+			
+		}
+		else if(turn.getTurn()==0 && tie==false) {
+			statement="You lost!!!";
+				
 	}	
 		return statement;
 }
