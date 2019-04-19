@@ -37,17 +37,17 @@ public class TicTacToeGame implements Serializable
 		
 	}
 	
-	public TicTacToeGame() {
+	public TicTacToeGame() throws Exception {
 		 grid = new Grid();
 		 gridTemp = new Grid();
+		 readBoards();	
 	}
 	
 	
-	public int computersChoice(int orderNumber) throws Exception {
+	public int computersChoice(int orderNumber) {
 		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
-		readBoards();	
 			if(wonMatches.isEmpty()) {
 				cellToUse = rand.nextInt(9);
 			}
@@ -166,6 +166,7 @@ public class TicTacToeGame implements Serializable
 	public int getWonMatches() {
 		return wonMatches.size();
 	}
+	
 	public void printSavedBoard() throws Exception {
 		readBoards();
 		if(!wonMatches.isEmpty()) {
