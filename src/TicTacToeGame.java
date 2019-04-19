@@ -46,6 +46,7 @@ public class TicTacToeGame implements Serializable
 	public int computersChoice(int orderNumber) throws Exception {
 		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
+		Grid previousBoard = new Grid();
 		readBoards();	
 			if(wonMatches.isEmpty()) {
 				cellToUse = rand.nextInt(9);
