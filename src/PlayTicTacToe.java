@@ -18,7 +18,9 @@ public class PlayTicTacToe
 		boolean succesfulTurn = false, gameOver = false, notFirstTurn=false;
 		boolean tie = false;
 		game1.setInitialTurn();
-		//game1.printSavedBoard();
+		game1.printSavedBoard();
+		//game1.readBoards();
+		System.out.println(game1.getWonMatches());
 		System.out.println("Welcome to Tic-Tac-Toe. Use the following numbers to select a cell.");
 		game1.getGrid().printBoardAid();
 	

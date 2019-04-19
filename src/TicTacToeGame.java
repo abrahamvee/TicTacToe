@@ -45,7 +45,7 @@ public class TicTacToeGame implements Serializable
 	
 	public int computersChoice(int orderNumber) {
 		int cellToUse=0, i=0, numberToAvoid=-1;
-		boolean foundInReferenceBoard = false;
+		boolean foundInReferenceBoard = false,foundAdequateNumber=false;
 		Grid previousBoard = new Grid();
 			
 			if(wonMatches.isEmpty()) {
@@ -62,8 +62,9 @@ public class TicTacToeGame implements Serializable
 						foundInReferenceBoard = true;
 						numberToAvoid = cellToUse;
 						cellToUse= rand.nextInt(9);
+						i++;
 					}
-				}while(!foundInReferenceBoard && numberToAvoid!=cellToUse);
+				}while(!foundInReferenceBoard && numberToAvoid==cellToUse && i<wonMatches.size());
 			}
 			return cellToUse;		
 	}
@@ -162,6 +163,9 @@ public class TicTacToeGame implements Serializable
 		os.close();
 	}
 	
+	public int getWonMatches() {
+		return wonMatches.size();
+	}
 	public void printSavedBoard() throws Exception {
 		readBoards();
 		if(!wonMatches.isEmpty()) {
