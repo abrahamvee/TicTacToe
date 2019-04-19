@@ -39,7 +39,7 @@ public class TicTacToeGame implements Serializable
 	
 	public TicTacToeGame() {
 		 grid = new Grid();
-		 
+		 gridTemp = new Grid();
 	}
 	
 	
@@ -133,7 +133,7 @@ public class TicTacToeGame implements Serializable
 	public String declareWinner(boolean tie)throws Exception {
 		boolean foundLastMove = false;
 		String statement= "Tie";
-		int i=9;
+		int i=8;
 		if(turn.getTurn()==1 && tie==false) {
 			statement="You won!!!";
 			grid.copyIntoGrid(gridTemp);

@@ -37,15 +37,15 @@ public class Grid implements Serializable
 		}	
 	}
 	public void copyIntoGrid(Grid gridTemp){
-		for(int i=0;i<GRID_SIZE;i++) {
-			if(grid[i].getCellID()==1) {
-				gridTemp.setX(i, grid[i].getOrder());
+		for(int i=1;i<GRID_SIZE+1;i++) {
+			if(grid[i-1].getCellID()==1) {
+				gridTemp.setX(i, grid[i-1].getOrder());
 			}
-			else if(grid[i].getCellID()==0) {
-				gridTemp.setO(i, grid[i].getOrder());
+			else if(grid[i-1].getCellID()==0) {
+				gridTemp.setO(i, grid[i-1].getOrder());
 			}
-			else if(grid[i].getCell()==null) {
-				gridTemp.emptyCell(i);
+			else if(grid[i-1].getCellID()==-1) {
+				gridTemp.emptyCell(i-1);
 			}
 				
 			}
