@@ -22,16 +22,17 @@ public class PlayTicTacToe
 		game1.getGrid().printBoardAid(); //BoardAid prints the numbers to be used for gameplay.
 		
 		do {
-			if(continueGamePlay=='y') {
-				game1.setInitialTurn();
+			if(continueGamePlay=='y') { //to start a new match
+				game1.setInitialTurn(); 
 				game1.resetGame();
 				game1.getGrid().printBoard();
 			}
 			
 			while(!game1.checkGameOver()) {
 				
-				if(notFirstTurn) {
+				if(notFirstTurn) { 
 					game1.changeTurn();
+					
 				} 
 				succesfulTurn = false;
 				if(game1.turn.getTurn()==1) {
