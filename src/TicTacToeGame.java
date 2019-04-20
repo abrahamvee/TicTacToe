@@ -91,6 +91,7 @@ public class TicTacToeGame implements Serializable
 	public void resetGame() {
 		grid.resetBoard();
 		tie = false;
+		gameOver = false;
 	}
 	public void setInitialTurn() {
 		int turnToSet = rand.nextInt(2);
@@ -103,7 +104,6 @@ public class TicTacToeGame implements Serializable
 	}
 	
 	public boolean checkGameOver() {
-		gameOver = false;
 		for(int i=0;i<7;i=i+3) {
 			if(grid.getCellID(i)==grid.getCellID(i+1) && grid.getCellID(i)==grid.getCellID(i+2) && grid.getCellID(i)==1) {
 				gameOver = true;
@@ -138,7 +138,7 @@ public class TicTacToeGame implements Serializable
 		return gameOver;
 	}
 	
-	public String declareWinner(boolean tie)throws Exception {
+	public String declareWinner()throws Exception {
 		boolean foundLastMove = false;
 		String statement= "Tie";
 		int i=8;
@@ -159,9 +159,11 @@ public class TicTacToeGame implements Serializable
 			
 		}
 		else if(turn.getTurn()==0 && tie==false) {
-			statement="You lost!!!";
-				
+			statement="You lost!!!";	
 	}	
+		else if(tie==true) {
+			statement = "It's a tie!!";
+		}
 		return statement;
 }
 	
