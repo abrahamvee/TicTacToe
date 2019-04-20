@@ -95,7 +95,7 @@ public class TicTacToeGame implements Serializable
 	}
 	
 	public boolean checkGameOver() {
-		
+		gameOver = false;
 		for(int i=0;i<7;i=i+3) {
 			if(grid.getCellID(i)==grid.getCellID(i+1) && grid.getCellID(i)==grid.getCellID(i+2) && grid.getCellID(i)==1) {
 				gameOver = true;
