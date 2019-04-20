@@ -14,28 +14,23 @@ public class PlayTicTacToe
 		
 		TicTacToeGame game1 = new TicTacToeGame();
 		Scanner in = new Scanner(System.in);
-		int cell = 0, moveNumber = 0, emptyCells=9;
-		boolean succesfulTurn = false, gameOver = false, notFirstTurn=false;
+		int cell = 0;
+		boolean succesfulTurn = false, notFirstTurn=false;
 		boolean tie = false;
 		char continueGamePlay = 'y';
 		game1.setInitialTurn();
-		//game1.printSavedBoard();
-		//game1.readBoards();
-		System.out.println(game1.getWonMatches());
+		//Insert possible log of saved games
+		//System.out.println(game1.getWonMatches());
 		System.out.println("Welcome to Tic-Tac-Toe. Use the following numbers to select a cell.");
 		game1.getGrid().printBoardAid();
-		
 		do {
 			if(continueGamePlay=='y') {
-				gameOver = false;
-				tie = false;
-				game1.setInitialTurn();
-				game1.getGrid().cleanBoard();
-				emptyCells = 9;
-				moveNumber= 0;
 				
+				game1.setInitialTurn();
+				game1.resetGame();
 			}
-		while(!gameOver) {
+			
+		while(!game1.checkGameOver()) {
 			
 			if(notFirstTurn) {
 			game1.changeTurn();
@@ -47,31 +42,26 @@ public class PlayTicTacToe
 				cell = in.nextInt()-1;
 				
 				do {
-					succesfulTurn=game1.getGrid().setX(cell, moveNumber);
+					succesfulTurn=game1.getGrid().setX(cell);
 					if(succesfulTurn==false) {
 						System.out.println("Invalid cell. Try other.");
 						cell = in.nextInt()-1;
 					}
 				}while(!succesfulTurn);
-				gameOver=game1.checkGameOver();
 			}
 			else if (game1.turn.getTurn()==0){
 				System.out.println("The computers turn!!!");
 				do {
-					succesfulTurn=game1.getGrid().setO(game1.computersChoice(moveNumber), moveNumber);
+					succesfulTurn=game1.getGrid().setO(game1.computersChoice());
 				}while(!succesfulTurn);
-				gameOver=game1.checkGameOver();
 				}
 			
 			game1.getGrid().printBoard();
-			moveNumber++;
 			notFirstTurn = true;
-			emptyCells--;
 			
-			if(emptyCells==0 && gameOver==false) {
-				gameOver = true;
-				tie = true;
-				
+			
+			if(game1.getGrid().getEmptyCells()==0 && game1.checkGameOver()==false) {
+				game1.setTie();
 			}
 			
 			}

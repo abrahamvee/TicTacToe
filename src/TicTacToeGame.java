@@ -12,13 +12,14 @@ public class TicTacToeGame implements Serializable
 
 {
 	public static ArrayList<Grid> wonMatches = new ArrayList<Grid>();
-	String fileName = "ticTacToe_learning_losses.ser";
+	String fileName = "ticTacToe_learning_losses_final.ser";
 	 
 	
 	Random rand = new Random();
 	final int BOARD_SIZE_LENGTH=3;
 	private int moveOrderTemp;
-	private boolean gameOver = false;
+	private int emptyCells = 9, moveNumber = 0;
+	private boolean gameOver = false, tie = false;
 	private Grid grid;
 	private Grid gridTemp;
 	Turn turn;
@@ -43,8 +44,11 @@ public class TicTacToeGame implements Serializable
 		 readBoards();	
 	}
 	
-	
-	public int computersChoice(int orderNumber) {
+	public void setTie() {
+		tie = true;
+		gameOver = true;
+	}
+	public int computersChoice() {
 		int cellToUse=0, i=0, numberToAvoid=-1;
 		boolean foundInReferenceBoard = false;
 		Grid previousBoard = new Grid();
@@ -54,7 +58,7 @@ public class TicTacToeGame implements Serializable
 			else if(!wonMatches.isEmpty()) {
 				grid.copyIntoGrid(gridTemp);
 				cellToUse = rand.nextInt(9);
-				gridTemp.setO(cellToUse,orderNumber);
+				gridTemp.setO(cellToUse);
 				
 				do {   										// cycle through wonMatches looking for a one that equals gridTemp
 					if(gridTemp.equals(wonMatches.get(i))) {
@@ -84,6 +88,10 @@ public class TicTacToeGame implements Serializable
 		return grid;
 	}
 	
+	public void resetGame() {
+		grid.resetBoard();
+		tie = false;
+	}
 	public void setInitialTurn() {
 		int turnToSet = rand.nextInt(2);
 		if(turnToSet==0) {

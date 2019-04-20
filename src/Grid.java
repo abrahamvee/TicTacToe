@@ -4,7 +4,7 @@ public class Grid implements Serializable
 {
 	private Cell grid[] = new Cell[9];
 	final static int GRID_SIZE=9;
-	
+	private int emptyCells = 9, moveNumber = 0;
 	
 	public Grid() {
 		for(int i=0;i<grid.length;i++) {
@@ -25,10 +25,15 @@ public class Grid implements Serializable
 		grid[cellNumber].cleanCell();
 	}
 	
-	public boolean setX(int cell,int moveNumber) {
+	public int getMoveOrderNumber() {
+		return moveNumber;
+	}
+	public boolean setX(int cell) {
 		if(grid[cell].getCell().trim().isEmpty()) {
 			grid[cell].setX();
 			grid[cell].saveOrder(moveNumber);
+			moveNumber++;
+			emptyCells--;
 			return true;
 		}
 		else {
@@ -38,10 +43,10 @@ public class Grid implements Serializable
 	public void copyIntoGrid(Grid gridTemp){
 		for(int i=0;i<GRID_SIZE;i++) {
 			if(grid[i].getCellID()==1) {
-				gridTemp.setX(i, grid[i].getOrder());
+				gridTemp.setX(i);
 			}
 			else if(grid[i].getCellID()==0) {
-				gridTemp.setO(i, grid[i].getOrder());
+				gridTemp.setO(i);
 			}
 			else if(grid[i].getCellID()==-1) {
 				gridTemp.emptyCell(i);
@@ -49,10 +54,12 @@ public class Grid implements Serializable
 				
 			}
 	}
-	public boolean setO(int cell, int moveNumber) {
+	public boolean setO(int cell) {
 		if(grid[cell].getCell().trim().isEmpty()) {
 			grid[cell].setO();
 			grid[cell].saveOrder(moveNumber);
+			moveNumber++;
+			emptyCells--;
 			return true;
 		}
 		else {
@@ -60,10 +67,16 @@ public class Grid implements Serializable
 		}
 	}
 	
-	public void cleanBoard() {
+	public void resetBoard() {
 		for(int i=0;i<GRID_SIZE;i++) {
 			grid[i].cleanCell();
 		}
+		moveNumber = 0;
+		emptyCells = 9;
+	}
+	
+	public int getEmptyCells() {
+		return emptyCells;
 	}
 	
 	public void printBoard() {
